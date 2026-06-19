@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glow_fitness/screens/exercises_screen.dart';
-import 'package:glow_fitness/screens/yoga_screen.dart';
 
 import '../data/sample_data.dart';
 import '../models/fitness_data.dart';
@@ -85,15 +84,92 @@ class WorkoutsScreen extends StatelessWidget {
             break;
 
           case 'strength':
-            // Get.to(() => StrengthWorkoutScreen(workout: w));
+            Get.to(
+              () => ExercisesScreen(
+                title: w.title,
+                exercises: [
+                  ('Arm Circles', 60),
+                  ('Jumping Jacks', 60),
+                  ('Shoulder Rolls', 60),
+                  ('Light Push-ups', 60),
+                  ('Chest Opener Stretch', 60),
+
+                  ('Push-Ups', 180),
+                  ('Incline Push-Ups', 180),
+                  ('Pike Push-Ups (Shoulders)', 180),
+                  ('Tricep Dips', 180),
+                  ('Diamond Push-Ups', 180),
+
+                  ('Plank Shoulder Taps', 180),
+                  ('Arm Plank Hold', 180),
+                  ('Bicep Curls (Water Bottles/Dumbbells)', 180),
+                  ('Shoulder Press', 180),
+                  ('Lateral Raises', 180),
+
+                  ('Close-Grip Push-Ups', 180),
+                  ('Slow Tempo Push-Ups', 180),
+
+                  ('Chest Stretch', 120),
+                  ('Triceps Stretch', 120),
+                  ('Shoulder Stretch', 120),
+                ],
+              ),
+            );
             break;
 
           case 'cardio':
-            // Get.to(() => CardioWorkoutScreen(workout: w));
+            Get.to(
+              () => ExercisesScreen(
+                title: w.title,
+                exercises: [
+                  ('Jumping Jacks', 60),
+                  ('High Knees', 60),
+                  ('Butt Kicks', 60),
+                  ('Mountain Climbers', 60),
+
+                  ('Fast Feet Run in Place', 60),
+                  ('Skater Jumps', 60),
+                  ('Burpees', 90),
+                  ('Jump Squats', 60),
+
+                  ('Boxer Shuffle', 60),
+                  ('Punches (Shadow Boxing)', 60),
+
+                  ('Side-to-Side Hops', 60),
+                  ('Plank Jacks', 60),
+
+                  ('Speed Skaters', 60),
+                  ('Mountain Climbers (Fast)', 60),
+
+                  ('Burpees (Final Burn)', 90),
+                  ('Cool Down Walk', 120),
+                ],
+              ),
+            );
             break;
 
           case 'mobility':
-            Get.to(() => YogaScreen());
+            Get.to(
+              () => ExercisesScreen(
+                title: w.title,
+                exercises: [
+                  ('Downward-Facing Dog', 60),
+                  ('Sun Salutation Flow', 180),
+                  ('Warrior I · Right', 60),
+                  ('Warrior I · Left', 60),
+                  ('Warrior II · Right', 60),
+                  ('Warrior II · Left', 60),
+                  ('Tree Pose · Right', 45),
+                  ('Tree Pose · Left', 45),
+                  ('Cobra Pose', 60),
+                  ('Bridge Pose', 60),
+                  ('Plank Pose', 60),
+                  ('Low Lunge Stretch · Right', 60),
+                  ('Low Lunge Stretch · Left', 60),
+                  ('Seated Forward Fold', 90),
+                ],
+              ),
+            );
             break;
 
           default:

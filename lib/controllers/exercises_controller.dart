@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:get/get.dart';
 
 class ExercisesController extends GetxController {
-  final exercises = <(String, int)>[
+  static const _defaultExercises = <(String, int)>[
     ('Jumping Jacks', 180),
     ('High Knees', 180),
     ('Burpees', 240),
@@ -14,6 +14,11 @@ class ExercisesController extends GetxController {
     ('Plank', 180),
   ];
 
+  ExercisesController({List<(String, int)>? exercises})
+    : exercises = exercises ?? _defaultExercises;
+
+  final List<(String, int)> exercises;
+
   final currentIndex = 0.obs;
   final remainingSeconds = 0.obs;
   final isActive = false.obs;
@@ -24,7 +29,9 @@ class ExercisesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    remainingSeconds.value = exercises[0].$2;
+    if (exercises.isNotEmpty) {
+      remainingSeconds.value = exercises[0].$2;
+    }
   }
 
   @override

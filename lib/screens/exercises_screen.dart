@@ -7,9 +7,17 @@ import '../widgets/aurora_background.dart';
 import '../widgets/glass_card.dart';
 
 class ExercisesScreen extends StatelessWidget {
-  ExercisesScreen({super.key});
+  ExercisesScreen({
+    super.key,
+    this.title = 'Full Body Fat Burn',
+    List<(String, int)>? exercises,
+  }) : controller = Get.put(
+         ExercisesController(exercises: exercises),
+         tag: title,
+       );
 
-  final controller = Get.put(ExercisesController());
+  final String title;
+  final ExercisesController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -145,8 +153,8 @@ class ExercisesScreen extends StatelessWidget {
         ),
         SizedBox(width: 30),
         Text(
-          'Full Body Fat Burn',
-          style: TextStyle(
+          title,
+          style: const TextStyle(
             color: AppColors.textPrimary,
             fontSize: 24,
             fontWeight: FontWeight.w700,
