@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-import '../theme/app_theme.dart';
-import '../widgets/glass_card.dart';
+import '../../theme/app_theme.dart';
+import '../../widgets/glass_card.dart';
+import 'goals_screen.dart';
+import 'health_sync_screen.dart';
+import 'settings_screen.dart';
+import 'subscription_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -22,8 +27,11 @@ class ProfileScreen extends StatelessWidget {
                   shape: BoxShape.circle,
                   gradient: AppColors.accentGradient,
                 ),
-                child: const Icon(Icons.person_rounded,
-                    size: 52, color: Colors.white),
+                child: const Icon(
+                  Icons.person_rounded,
+                  size: 52,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 12),
               const Text(
@@ -58,12 +66,31 @@ class ProfileScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Column(
             children: [
-              _tile(Icons.flag_rounded, 'Goals', AppColors.primary),
-              _tile(Icons.notifications_rounded, 'Notifications',
-                  AppColors.secondary),
-              _tile(Icons.favorite_rounded, 'Health sync', AppColors.accent),
-              _tile(Icons.settings_rounded, 'Settings', AppColors.lime,
-                  last: true),
+              _tile(
+                Icons.flag_rounded,
+                'Goals',
+                AppColors.primary,
+                onTap: () => Get.to(() => const GoalsScreen()),
+              ),
+              _tile(
+                Icons.workspace_premium_rounded,
+                'Subscriptions',
+                AppColors.secondary,
+                onTap: () => Get.to(() => const SubscriptionScreen()),
+              ),
+              _tile(
+                Icons.favorite_rounded,
+                'Health sync',
+                AppColors.accent,
+                onTap: () => Get.to(() => const HealthSyncScreen()),
+              ),
+              _tile(
+                Icons.settings_rounded,
+                'Settings',
+                AppColors.lime,
+                onTap: () => Get.to(() => const SettingsScreen()),
+                last: true,
+              ),
             ],
           ),
         ),
@@ -104,12 +131,18 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _divider() => Container(
-        width: 1,
-        height: 36,
-        color: Colors.white.withValues(alpha: 0.12),
-      );
+    width: 1,
+    height: 36,
+    color: Colors.white.withValues(alpha: 0.12),
+  );
 
-  Widget _tile(IconData icon, String label, Color color, {bool last = false}) {
+  Widget _tile(
+    IconData icon,
+    String label,
+    Color color, {
+    bool last = false,
+    VoidCallback? onTap,
+  }) {
     return Column(
       children: [
         ListTile(
@@ -129,9 +162,11 @@ class ProfileScreen extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          trailing: const Icon(Icons.chevron_right_rounded,
-              color: AppColors.textMuted),
-          onTap: () {},
+          trailing: const Icon(
+            Icons.chevron_right_rounded,
+            color: AppColors.textMuted,
+          ),
+          onTap: onTap,
         ),
         if (!last)
           Divider(

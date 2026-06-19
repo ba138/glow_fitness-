@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../widgets/aurora_background.dart';
 import '../widgets/glass_bottom_nav.dart';
 import 'dashboard_screen.dart';
-import 'profile_screen.dart';
+import 'profilescreens/profile_screen.dart';
 import 'progress_screen.dart';
 import 'workouts_screen.dart';
 
