@@ -39,10 +39,7 @@ class ActivityRings extends StatelessWidget {
                   ),
                   const Text(
                     'of goal',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColors.textMuted,
-                    ),
+                    style: TextStyle(fontSize: 12, color: AppColors.textMuted),
                   ),
                 ],
               ),
@@ -85,10 +82,7 @@ class _RingsPainter extends CustomPainter {
         ..shader = SweepGradient(
           startAngle: -math.pi / 2,
           endAngle: 3 * math.pi / 2,
-          colors: [
-            rings[i].color.withValues(alpha: 0.6),
-            rings[i].color,
-          ],
+          colors: [rings[i].color.withValues(alpha: 0.6), rings[i].color],
         ).createShader(rect);
       canvas.drawArc(rect, -math.pi / 2, sweep, false, progress);
     }
