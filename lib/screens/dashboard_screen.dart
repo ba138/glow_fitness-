@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:glow_fitness/screens/exercises_screen.dart';
 
+import '../controllers/health_controller.dart';
 import '../data/sample_data.dart';
 import '../models/fitness_data.dart';
 import '../theme/app_theme.dart';
@@ -12,17 +14,21 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
-      children: [
-        _header(),
-        const SizedBox(height: 24),
-        _ringsCard(),
-        const SizedBox(height: 16),
-        _statsRow(),
-        const SizedBox(height: 16),
-        _todayPlan(context),
-      ],
+    final health = Get.put(HealthController());
+
+    return Obx(
+      () => ListView(
+        padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+        children: [
+          _header(),
+          const SizedBox(height: 24),
+          _ringsCard(health),
+          const SizedBox(height: 16),
+          _statsRow(health),
+          const SizedBox(height: 16),
+          _todayPlan(context),
+        ],
+      ),
     );
   }
 
@@ -62,19 +68,54 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _ringsCard() {
+  Widget _ringsCard(HealthController health) {
+    final rings = [
+      ActivityRing(
+        label: 'Move',
+        value: health.activeEnergy.value,
+        goal: 500,
+        unit: 'kcal',
+        color: AppColors.accent,
+        icon: Icons.local_fire_department_rounded,
+      ),
+      ActivityRing(
+        label: 'Steps',
+        value: health.steps.value,
+        goal: 10000,
+        unit: 'steps',
+        color: AppColors.primary,
+        icon: Icons.directions_walk_rounded,
+      ),
+      ActivityRing(
+        label: 'Stand',
+        value: health.standHours.value,
+        goal: 12,
+        unit: 'hrs',
+        color: AppColors.lime,
+        icon: Icons.self_improvement_rounded,
+      ),
+      ActivityRing(
+        label: 'Heart',
+        value: health.heartRate.value,
+        goal: 120,
+        unit: 'bpm',
+        color: AppColors.secondary,
+        icon: Icons.favorite_rounded,
+      ),
+    ];
+
     return GlassCard(
       child: Row(
         children: [
-          ActivityRings(rings: SampleData.rings, size: 150),
-          const SizedBox(width: 20),
+          ActivityRings(rings: rings, size: 120),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                for (final r in SampleData.rings) ...[
+                for (final r in rings) ...[
                   _ringLegend(r),
-                  if (r != SampleData.rings.last) const SizedBox(height: 14),
+                  if (r != rings.last) const SizedBox(height: 14),
                 ],
               ],
             ),
@@ -113,13 +154,13 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _statsRow() {
+  Widget _statsRow(HealthController health) {
     return Row(
       children: [
         Expanded(
           child: _miniStat(
             Icons.favorite_rounded,
-            '72',
+            '${health.heartRate.value.round()}',
             'Avg BPM',
             AppColors.accent,
           ),
@@ -128,7 +169,7 @@ class DashboardScreen extends StatelessWidget {
         Expanded(
           child: _miniStat(
             Icons.water_drop_rounded,
-            '1.8L',
+            '${health.waterLiters.value.toStringAsFixed(1)}L',
             'Water',
             AppColors.secondary,
           ),
@@ -137,7 +178,7 @@ class DashboardScreen extends StatelessWidget {
         Expanded(
           child: _miniStat(
             Icons.bedtime_rounded,
-            '7h 20m',
+            '${health.sleepHours.value.toStringAsFixed(1)}h',
             'Sleep',
             AppColors.primary,
           ),

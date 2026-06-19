@@ -180,16 +180,16 @@ class WorkoutsScreen extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 60,
-            height: 60,
+            width: 50,
+            height: 50,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18),
               gradient: LinearGradient(colors: w.colors),
             ),
-            child: Icon(w.icon, color: Colors.white, size: 30),
+            child: Icon(w.icon, color: Colors.white, size: 20),
           ),
 
-          const SizedBox(width: 16),
+          const SizedBox(width: 10),
 
           Expanded(
             child: Column(
@@ -209,7 +209,7 @@ class WorkoutsScreen extends StatelessWidget {
                   w.title,
                   style: const TextStyle(
                     color: AppColors.textPrimary,
-                    fontSize: 17,
+                    fontSize: 14,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -218,12 +218,12 @@ class WorkoutsScreen extends StatelessWidget {
                 Row(
                   children: [
                     _chip(Icons.schedule_rounded, '${w.durationMinutes} min'),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 3),
                     _chip(
                       Icons.local_fire_department_rounded,
                       '${w.calories} kcal',
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 3),
                     _chip(Icons.signal_cellular_alt_rounded, w.level),
                   ],
                 ),
@@ -241,13 +241,13 @@ class WorkoutsScreen extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 14, color: AppColors.textMuted),
+        Icon(icon, size: 12, color: AppColors.textMuted),
         const SizedBox(width: 4),
         Flexible(
           child: Text(
             label,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
+            style: const TextStyle(color: AppColors.textMuted, fontSize: 10),
           ),
         ),
       ],

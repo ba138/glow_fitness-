@@ -12,6 +12,13 @@ class HealthController extends GetxController {
   final heartRate = 0.0.obs; // bpm
   final sleepHours = 0.0.obs; // hours
   final waterLiters = 0.0.obs; // liters
+  final standHours = 0.0.obs; // hours
+
+  @override
+  void onInit() {
+    super.onInit();
+    requestPermissions();
+  }
 
   Future<bool> requestPermissions() async {
     final types = [
@@ -20,6 +27,7 @@ class HealthController extends GetxController {
       HealthDataType.HEART_RATE,
       HealthDataType.SLEEP_ASLEEP,
       HealthDataType.WATER,
+      HealthDataType.APPLE_STAND_HOUR,
     ];
 
     try {
@@ -48,6 +56,7 @@ class HealthController extends GetxController {
         HealthDataType.HEART_RATE,
         HealthDataType.SLEEP_ASLEEP,
         HealthDataType.WATER,
+        HealthDataType.APPLE_STAND_HOUR,
       ];
 
       final data = await _health.getHealthDataFromTypes(
@@ -58,9 +67,11 @@ class HealthController extends GetxController {
 
       double stepsTotal = 0.0;
       double kcalTotal = 0.0;
-      double hrLast = 0.0;
+      double hrSum = 0.0;
+      int hrCount = 0;
       double sleepMinutes = 0.0;
       double waterMl = 0.0;
+      double standTotal = 0.0;
 
       for (final e in data) {
         switch (e.type) {
@@ -71,7 +82,10 @@ class HealthController extends GetxController {
             kcalTotal += (e.value is num) ? (e.value as num).toDouble() : 0.0;
             break;
           case HealthDataType.HEART_RATE:
-            hrLast = (e.value is num) ? (e.value as num).toDouble() : hrLast;
+            if (e.value is num) {
+              hrSum += (e.value as num).toDouble();
+              hrCount++;
+            }
             break;
           case HealthDataType.SLEEP_ASLEEP:
             // Health package represents sleep samples as duration in minutes
@@ -82,6 +96,9 @@ class HealthController extends GetxController {
           case HealthDataType.WATER:
             waterMl += (e.value is num) ? (e.value as num).toDouble() : 0.0;
             break;
+          case HealthDataType.APPLE_STAND_HOUR:
+            standTotal += (e.value is num) ? (e.value as num).toDouble() : 0.0;
+            break;
           default:
             break;
         }
@@ -89,9 +106,10 @@ class HealthController extends GetxController {
 
       steps.value = stepsTotal;
       activeEnergy.value = kcalTotal;
-      heartRate.value = hrLast;
+      heartRate.value = hrCount > 0 ? hrSum / hrCount : 0.0;
       sleepHours.value = sleepMinutes / 60.0;
       waterLiters.value = waterMl / 1000.0;
+      standHours.value = standTotal;
     } catch (e) {
       // ignore errors but keep previous values
     }
