@@ -78,14 +78,14 @@ class _SplashScreenState extends State<SplashScreen>
                 //     child:
                 //   ),
                 // ),
-                SizedBox(
-                  width: 100,
-                  height: 100,
-                  child: Image.asset(
-                    'assets/glow_fitness_luxury_logo.png',
-                    fit: BoxFit.contain,
-                  ),
-                ),
+                // SizedBox(
+                //   width: 100,
+                //   height: 100,
+                //   child: Image.asset(
+                //     'assets/glow_fitness_luxury_logo.png',
+                //     fit: BoxFit.contain,
+                //   ),
+                // ),
                 // Icon(
                 //   Icons.fitness_center_rounded,
                 //   size: 72,
