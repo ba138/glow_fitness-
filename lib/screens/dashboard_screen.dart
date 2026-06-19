@@ -94,14 +94,6 @@ class DashboardScreen extends StatelessWidget {
         color: AppColors.lime,
         icon: Icons.self_improvement_rounded,
       ),
-      ActivityRing(
-        label: 'Heart',
-        value: health.heartRate.value,
-        goal: 120,
-        unit: 'bpm',
-        color: AppColors.secondary,
-        icon: Icons.favorite_rounded,
-      ),
     ];
 
     return GlassCard(
