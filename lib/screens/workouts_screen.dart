@@ -32,7 +32,10 @@ class WorkoutsScreen extends StatelessWidget {
             itemBuilder: (context, i) {
               final selected = i == 0;
               return GlassCard(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 18,
+                  vertical: 8,
+                ),
                 borderRadius: 20,
                 gradient: selected ? AppColors.primaryGradient : null,
                 child: Center(
@@ -59,9 +62,9 @@ class WorkoutsScreen extends StatelessWidget {
 
   Widget _workoutCard(BuildContext context, Workout w) {
     return GlassCard(
-      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Opening ${w.title}…')),
-      ),
+      onTap: () => ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Opening ${w.title}…'))),
       child: Row(
         children: [
           Container(
@@ -100,10 +103,12 @@ class WorkoutsScreen extends StatelessWidget {
                 Row(
                   children: [
                     _chip(Icons.schedule_rounded, '${w.durationMinutes} min'),
-                    const SizedBox(width: 12),
-                    _chip(Icons.local_fire_department_rounded,
-                        '${w.calories} kcal'),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 8),
+                    _chip(
+                      Icons.local_fire_department_rounded,
+                      '${w.calories} kcal',
+                    ),
+                    const SizedBox(width: 8),
                     _chip(Icons.signal_cellular_alt_rounded, w.level),
                   ],
                 ),

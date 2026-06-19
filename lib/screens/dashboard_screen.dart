@@ -87,7 +87,7 @@ class DashboardScreen extends StatelessWidget {
     return Row(
       children: [
         Icon(r.icon, color: r.color, size: 20),
-        const SizedBox(width: 10),
+        // const SizedBox(width: 10),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -190,7 +190,10 @@ class DashboardScreen extends StatelessWidget {
               children: [
                 const Text(
                   "Today's Session",
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 13,
+                  ),
                 ),
                 const SizedBox(height: 6),
                 Text(
@@ -224,7 +227,11 @@ class DashboardScreen extends StatelessWidget {
               ],
             ),
           ),
-          Icon(workout.icon, size: 64, color: Colors.white.withValues(alpha: 0.85)),
+          Icon(
+            workout.icon,
+            size: 64,
+            color: Colors.white.withValues(alpha: 0.85),
+          ),
         ],
       ),
     );

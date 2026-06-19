@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'screens/home_shell.dart';
+import 'screens/splash_screen.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class GlowFitnessApp extends StatelessWidget {
       title: 'Glow Fitness',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.dark,
-      home: const HomeShell(),
+      home: const SplashScreen(),
     );
   }
 }

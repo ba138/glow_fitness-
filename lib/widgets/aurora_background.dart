@@ -65,7 +65,7 @@ class _AuroraBackgroundState extends State<AuroraBackground>
                 alignment: Alignment(-0.6 + t * 0.5, 0.9 - t * 0.3),
                 size: 300,
               ),
-              ?child,
+              child!,
             ],
           );
         },
