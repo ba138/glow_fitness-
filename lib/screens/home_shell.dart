@@ -26,11 +26,11 @@ class _HomeShellState extends State<HomeShell> {
     GlassNavItem(Icons.person_rounded, 'Profile'),
   ];
 
-  static const _screens = [
+  static final _screens = [
     DashboardScreen(),
-    WorkoutsScreen(),
-    ProgressScreen(),
-    ProfileScreen(),
+    const WorkoutsScreen(),
+    const ProgressScreen(),
+    const ProfileScreen(),
   ];
 
   @override
@@ -43,10 +43,7 @@ class _HomeShellState extends State<HomeShell> {
           bottom: false,
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
-            child: KeyedSubtree(
-              key: ValueKey(_index),
-              child: _screens[_index],
-            ),
+            child: KeyedSubtree(key: ValueKey(_index), child: _screens[_index]),
           ),
         ),
       ),

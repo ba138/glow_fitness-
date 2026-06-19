@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glow_fitness/screens/exercises_screen.dart';
 
 import '../data/sample_data.dart';
 import '../models/fitness_data.dart';
@@ -218,9 +219,12 @@ class DashboardScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Starting ${workout.title}…')),
-                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => ExercisesScreen()),
+                    );
+                  },
                   icon: const Icon(Icons.play_arrow_rounded),
                   label: const Text('Start'),
                 ),

@@ -16,7 +16,7 @@ class ActivityRings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0, end: 1),
+      tween: Tween(begin: 0.0, end: 1.0),
       duration: const Duration(milliseconds: 1100),
       curve: Curves.easeOutCubic,
       builder: (context, t, _) {
@@ -30,7 +30,7 @@ class ActivityRings extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    '${(rings.first.progress * 100 * t).round()}%',
+                    '${((rings.isNotEmpty ? rings.first.progress : 0.0) * 100 * t).round()}%',
                     style: const TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.w700,
