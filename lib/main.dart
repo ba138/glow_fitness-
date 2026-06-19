@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'screens/splash_screen.dart';
 import 'theme/app_theme.dart';
@@ -12,7 +13,7 @@ class GlowFitnessApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Glow Fitness',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.dark,

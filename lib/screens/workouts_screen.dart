@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:glow_fitness/screens/exercises_screen.dart';
+import 'package:glow_fitness/screens/yoga_screen.dart';
 
 import '../data/sample_data.dart';
 import '../models/fitness_data.dart';
 import '../theme/app_theme.dart';
 import '../widgets/glass_card.dart';
+
+/// 👉 IMPORT SCREENS
 
 class WorkoutsScreen extends StatelessWidget {
   const WorkoutsScreen({super.key});
@@ -11,6 +16,7 @@ class WorkoutsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categories = ['All', 'HIIT', 'Strength', 'Cardio', 'Mobility'];
+
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
       children: [
@@ -22,7 +28,10 @@ class WorkoutsScreen extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
+
         const SizedBox(height: 16),
+
+        /// CATEGORY BAR
         SizedBox(
           height: 40,
           child: ListView.separated(
@@ -31,6 +40,7 @@ class WorkoutsScreen extends StatelessWidget {
             separatorBuilder: (_, _) => const SizedBox(width: 10),
             itemBuilder: (context, i) {
               final selected = i == 0;
+
               return GlassCard(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 18,
@@ -51,20 +61,46 @@ class WorkoutsScreen extends StatelessWidget {
             },
           ),
         ),
+
         const SizedBox(height: 20),
+
+        /// WORKOUT LIST
         for (final w in SampleData.workouts) ...[
-          _workoutCard(context, w),
+          _workoutCard(w),
           const SizedBox(height: 16),
         ],
       ],
     );
   }
 
-  Widget _workoutCard(BuildContext context, Workout w) {
+  /// =========================
+  /// WORKOUT CARD + GETX NAV
+  /// =========================
+  Widget _workoutCard(Workout w) {
     return GlassCard(
-      onTap: () => ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Opening ${w.title}…'))),
+      onTap: () {
+        switch (w.category.toLowerCase()) {
+          case 'hiit':
+            Get.to(() => ExercisesScreen());
+            break;
+
+          case 'strength':
+            // Get.to(() => StrengthWorkoutScreen(workout: w));
+            break;
+
+          case 'cardio':
+            // Get.to(() => CardioWorkoutScreen(workout: w));
+            break;
+
+          case 'mobility':
+            Get.to(() => YogaScreen());
+            break;
+
+          default:
+          // Get.to(() => WorkoutDetailScreen(workout: w));
+        }
+      },
+
       child: Row(
         children: [
           Container(
@@ -76,7 +112,9 @@ class WorkoutsScreen extends StatelessWidget {
             ),
             child: Icon(w.icon, color: Colors.white, size: 30),
           ),
+
           const SizedBox(width: 16),
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,6 +138,7 @@ class WorkoutsScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 6),
+
                 Row(
                   children: [
                     _chip(Icons.schedule_rounded, '${w.durationMinutes} min'),
@@ -115,6 +154,7 @@ class WorkoutsScreen extends StatelessWidget {
               ],
             ),
           ),
+
           const Icon(Icons.chevron_right_rounded, color: AppColors.textMuted),
         ],
       ),
