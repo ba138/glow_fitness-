@@ -122,20 +122,23 @@ class _GoalsScreenState extends State<GoalsScreen> {
                     const SizedBox(height: 12),
                     _goalField('Sleep hours', _sleepController, 'hrs'),
                     const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: _saveGoals,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
+                    GlassCard(
+                      onTap: _saveGoals,
+                      borderRadius: 16,
+                      gradient: AppColors.primaryGradient,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 14,
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 14,
+                      child: const Center(
+                        child: Text(
+                          'Save goals',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.3,
+                          ),
                         ),
-                        child: Text('Save goals'),
                       ),
                     ),
                   ],
