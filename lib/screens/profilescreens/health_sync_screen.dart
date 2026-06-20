@@ -72,20 +72,23 @@ class HealthSyncScreen extends StatelessWidget {
                       style: TextStyle(color: AppColors.textMuted),
                     ),
                     const SizedBox(height: 24),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
+                    GlassCard(
+                      onTap: () {},
+                      borderRadius: 16,
+                      gradient: AppColors.primaryGradient,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 14,
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 14,
+                      child: const Center(
+                        child: Text(
+                          'Reconnect account',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.3,
+                          ),
                         ),
-                        child: Text('Reconnect account'),
                       ),
                     ),
                   ],
