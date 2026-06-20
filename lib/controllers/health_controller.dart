@@ -88,7 +88,10 @@ class HealthController extends GetxController with WidgetsBindingObserver {
         await Future<void>.delayed(const Duration(milliseconds: 500));
       }
 
-      await _health.hasPermissions(types, permissions: permissions);
+      final hasPermissions = await _health.hasPermissions(
+        types,
+        permissions: permissions,
+      );
 
       var ok = false;
       const retryCount = 5;
