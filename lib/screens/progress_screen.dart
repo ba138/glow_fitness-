@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-import '../data/sample_data.dart';
+import '../controllers/progress_controller.dart';
 import '../theme/app_theme.dart';
 import '../widgets/glass_card.dart';
 import '../widgets/weekly_bar_chart.dart';
@@ -10,109 +11,120 @@ class ProgressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final total = SampleData.week.fold<int>(0, (s, d) => s + d.calories);
-    final avg = (total / SampleData.week.length).round();
+    final controller = Get.put(ProgressController());
 
-    return ListView(
-      padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
-      children: [
-        const Text(
-          'Progress',
-          style: TextStyle(
-            color: AppColors.textPrimary,
-            fontSize: 26,
-            fontWeight: FontWeight.w700,
+    return Obx(
+      () => ListView(
+        padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+        children: [
+          const Text(
+            'Progress',
+            style: TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 26,
+              fontWeight: FontWeight.w700,
+            ),
           ),
-        ),
-        const SizedBox(height: 16),
-        GlassCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          const SizedBox(height: 16),
+          GlassCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Calories burned this week',
+                  style: TextStyle(color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '${controller.totalCalories.value} kcal',
+                  style: const TextStyle(
+                    color: AppColors.textPrimary,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                WeeklyBarChart(data: controller.week),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
             children: [
-              const Text(
-                'Calories burned this week',
-                style: TextStyle(color: AppColors.textSecondary),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '$total kcal',
-                style: const TextStyle(
-                  color: AppColors.textPrimary,
-                  fontSize: 28,
-                  fontWeight: FontWeight.w700,
+              Expanded(
+                child: _summary(
+                  'Daily avg',
+                  '${controller.averageCalories.value}',
+                  'kcal',
+                  AppColors.accent,
                 ),
               ),
-              const SizedBox(height: 24),
-              WeeklyBarChart(data: SampleData.week),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              child: _summary('Daily avg', '$avg', 'kcal', AppColors.accent),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: _summary('Workouts', '5', 'this week', AppColors.lime),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        GlassCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Streak',
-                style: TextStyle(color: AppColors.textSecondary),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  for (final d in SampleData.week)
-                    Column(
-                      children: [
-                        Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: d.calories > 400
-                                ? AppColors.primaryGradient
-                                : null,
-                            color: d.calories > 400
-                                ? null
-                                : Colors.white.withValues(alpha: 0.08),
-                          ),
-                          child: Icon(
-                            d.calories > 400
-                                ? Icons.check_rounded
-                                : Icons.remove_rounded,
-                            size: 16,
-                            color: d.calories > 400
-                                ? Colors.white
-                                : AppColors.textMuted,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          d.day,
-                          style: const TextStyle(
-                            color: AppColors.textMuted,
-                            fontSize: 11,
-                          ),
-                        ),
-                      ],
-                    ),
-                ],
+              const SizedBox(width: 16),
+              Expanded(
+                child: _summary(
+                  'Workouts',
+                  controller.workoutsThisWeek.value.toString(),
+                  'this week',
+                  AppColors.lime,
+                ),
               ),
             ],
           ),
-        ),
-      ],
+          const SizedBox(height: 16),
+          GlassCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Streak',
+                  style: TextStyle(color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    for (final d in controller.week)
+                      Column(
+                        children: [
+                          Container(
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: controller.isStreakDay(d)
+                                  ? AppColors.primaryGradient
+                                  : null,
+                              color: controller.isStreakDay(d)
+                                  ? null
+                                  : Colors.white.withValues(alpha: 0.08),
+                            ),
+                            child: Icon(
+                              controller.isStreakDay(d)
+                                  ? Icons.check_rounded
+                                  : Icons.remove_rounded,
+                              size: 16,
+                              color: controller.isStreakDay(d)
+                                  ? Colors.white
+                                  : AppColors.textMuted,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            d.day,
+                            style: const TextStyle(
+                              color: AppColors.textMuted,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
