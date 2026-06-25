@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../controllers/profile_controller.dart';
 import '../theme/app_theme.dart';
 import '../widgets/aurora_background.dart';
+import 'home_shell.dart';
 import 'profilescreens/personal_details_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,8 +19,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  late final Animation<double> _pulse;
-  late final Animation<double> _fade;
+  final _profile = Get.put(ProfileController());
 
   @override
   void initState() {
@@ -27,17 +29,8 @@ class _SplashScreenState extends State<SplashScreen>
       duration: const Duration(milliseconds: 1400),
     );
 
-    _pulse = CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.0, 0.7, curve: Curves.easeOut),
-    );
-    _fade = CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.4, 1.0, curve: Curves.easeIn),
-    );
-
     _controller.forward();
-    Timer(const Duration(milliseconds: 2200), _goHome);
+    Timer(const Duration(milliseconds: 2200), _openNextScreen);
   }
 
   @override
@@ -46,14 +39,18 @@ class _SplashScreenState extends State<SplashScreen>
     super.dispose();
   }
 
-  void _goHome() {
+  Future<void> _openNextScreen() async {
+    await _profile.loadProfile();
     if (!mounted) return;
+
+    final nextScreen = _profile.detailsCompleted.value
+        ? const HomeShell()
+        : const PersonalDetailsScreen(isOnboarding: true);
 
     Navigator.of(context).pushReplacement(
       PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 600),
-        pageBuilder: (_, _, _) =>
-            const PersonalDetailsScreen(isOnboarding: true),
+        pageBuilder: (_, _, _) => nextScreen,
         transitionsBuilder: (_, animation, _, child) {
           return FadeTransition(opacity: animation, child: child);
         },
@@ -72,13 +69,6 @@ class _SplashScreenState extends State<SplashScreen>
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // ScaleTransition(
-                //   scale: _pulse.drive(Tween(begin: 0.88, end: 1.0)),
-                //   child: FadeTransition(
-                //     opacity: _fade,
-                //     child:
-                //   ),
-                // ),
                 // SizedBox(
                 //   width: 100,
                 //   height: 100,

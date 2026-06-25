@@ -71,8 +71,6 @@ class DashboardScreen extends StatelessWidget {
   }
 
   Widget _ringsCard(HealthController health) {
-    print("UI STEPS = ${health.steps.value}");
-
     final rings = [
       ActivityRing(
         label: 'Move',

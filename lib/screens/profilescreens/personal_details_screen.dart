@@ -45,18 +45,22 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
     super.dispose();
   }
 
-  void _saveDetails() {
+  Future<void> _saveDetails() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    _profile.updateProfile(
+    await _profile.updateProfile(
       newName: _nameController.text,
       newWeight: double.parse(_weightController.text),
       newHeight: double.parse(_heightController.text),
       newHeightUnit: _heightUnit,
       newAge: int.parse(_ageController.text),
     );
+
+    if (!mounted) {
+      return;
+    }
 
     if (widget.isOnboarding) {
       Navigator.of(context).pushReplacement(

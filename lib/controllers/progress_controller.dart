@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:health/health.dart';
 
@@ -95,7 +96,7 @@ class ProgressController extends GetxController {
       totalCalories.value = total;
       averageCalories.value = (total / 7).round();
     } catch (e) {
-      print("Calories error: $e");
+      debugPrint("Calories error: $e");
     }
   }
 
@@ -124,7 +125,7 @@ class ProgressController extends GetxController {
 
       workoutMinutes.value = minutes;
     } catch (e) {
-      print("Workout error: $e");
+      debugPrint("Workout error: $e");
     }
   }
 
