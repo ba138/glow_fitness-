@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/profile_controller.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/glass_card.dart';
 import 'goals_screen.dart';
 import 'health_sync_screen.dart';
+import 'personal_details_screen.dart';
 import 'settings_screen.dart';
 import 'subscription_screen.dart';
 
@@ -13,88 +15,103 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
-      children: [
-        const SizedBox(height: 8),
-        Center(
-          child: Column(
-            children: [
-              Container(
-                width: 96,
-                height: 96,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: AppColors.accentGradient,
+    final profile = Get.put(ProfileController());
+
+    return Obx(
+      () => ListView(
+        padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+        children: [
+          const SizedBox(height: 8),
+          Center(
+            child: Column(
+              children: [
+                Container(
+                  width: 96,
+                  height: 96,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: AppColors.accentGradient,
+                  ),
+                  child: const Icon(
+                    Icons.person_rounded,
+                    size: 52,
+                    color: Colors.white,
+                  ),
                 ),
-                child: const Icon(
-                  Icons.person_rounded,
-                  size: 52,
-                  color: Colors.white,
+                const SizedBox(height: 12),
+                Text(
+                  profile.name.value,
+                  style: const TextStyle(
+                    color: AppColors.textPrimary,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              const Text(
-                'Basit Ali',
-                style: TextStyle(
-                  color: AppColors.textPrimary,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
+                const Text(
+                  'Premium member',
+                  style: TextStyle(color: AppColors.textMuted),
                 ),
-              ),
-              const Text(
-                'Premium member',
-                style: TextStyle(color: AppColors.textMuted),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-        GlassCard(
-          child: Row(
-            children: [
-              _bodyStat('Weight', '72', 'kg'),
-              _divider(),
-              _bodyStat('Height', '178', 'cm'),
-              _divider(),
-              _bodyStat('Age', '26', 'yrs'),
-            ],
+          const SizedBox(height: 20),
+          GlassCard(
+            onTap: () => Get.to(() => const PersonalDetailsScreen()),
+            child: Row(
+              children: [
+                _bodyStat('Weight', profile.formattedWeight, 'kg'),
+                _divider(),
+                _bodyStat(
+                  'Height',
+                  profile.formattedHeight,
+                  profile.heightUnitLabel,
+                ),
+                _divider(),
+                _bodyStat('Age', '${profile.age.value}', 'yrs'),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 16),
-        GlassCard(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Column(
-            children: [
-              _tile(
-                Icons.flag_rounded,
-                'Goals',
-                AppColors.primary,
-                onTap: () => Get.to(() => const GoalsScreen()),
-              ),
-              _tile(
-                Icons.workspace_premium_rounded,
-                'Subscriptions',
-                AppColors.secondary,
-                onTap: () => Get.to(() => const SubscriptionScreen()),
-              ),
-              _tile(
-                Icons.favorite_rounded,
-                'Health sync',
-                AppColors.accent,
-                onTap: () => Get.to(() => const HealthSyncScreen()),
-              ),
-              _tile(
-                Icons.settings_rounded,
-                'Settings',
-                AppColors.lime,
-                onTap: () => Get.to(() => const SettingsScreen()),
-                last: true,
-              ),
-            ],
+          const SizedBox(height: 16),
+          GlassCard(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Column(
+              children: [
+                _tile(
+                  Icons.edit_rounded,
+                  'Personal details',
+                  AppColors.amber,
+                  onTap: () => Get.to(() => const PersonalDetailsScreen()),
+                ),
+                _tile(
+                  Icons.flag_rounded,
+                  'Goals',
+                  AppColors.primary,
+                  onTap: () => Get.to(() => const GoalsScreen()),
+                ),
+                _tile(
+                  Icons.workspace_premium_rounded,
+                  'Subscriptions',
+                  AppColors.secondary,
+                  onTap: () => Get.to(() => const SubscriptionScreen()),
+                ),
+                _tile(
+                  Icons.favorite_rounded,
+                  'Health sync',
+                  AppColors.accent,
+                  onTap: () => Get.to(() => const HealthSyncScreen()),
+                ),
+                _tile(
+                  Icons.settings_rounded,
+                  'Settings',
+                  AppColors.lime,
+                  onTap: () => Get.to(() => const SettingsScreen()),
+                  last: true,
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

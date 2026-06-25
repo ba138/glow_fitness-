@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:glow_fitness/screens/exercises_screen.dart';
 
 import '../controllers/health_controller.dart';
+import '../controllers/profile_controller.dart';
 import '../data/sample_data.dart';
 import '../models/fitness_data.dart';
 import '../theme/app_theme.dart';
@@ -15,12 +16,13 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final health = Get.put(HealthController());
+    final profile = Get.put(ProfileController());
 
     return Obx(
       () => ListView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
         children: [
-          _header(),
+          _header(profile),
           const SizedBox(height: 24),
           _ringsCard(health),
           const SizedBox(height: 16),
@@ -32,21 +34,21 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _header() {
+  Widget _header(ProfileController profile) {
     return Row(
       children: [
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text(
+            children: [
+              const Text(
                 'Good morning,',
                 style: TextStyle(color: AppColors.textMuted, fontSize: 14),
               ),
-              SizedBox(height: 2),
+              const SizedBox(height: 2),
               Text(
-                'Basit',
-                style: TextStyle(
+                profile.firstName,
+                style: const TextStyle(
                   color: AppColors.textPrimary,
                   fontSize: 26,
                   fontWeight: FontWeight.w700,
@@ -84,7 +86,7 @@ class DashboardScreen extends StatelessWidget {
         label: 'Steps',
         value: health.steps.value,
         goal: 10000,
-        unit: 'steps',
+        unit: '',
         color: AppColors.primary,
         icon: Icons.directions_walk_rounded,
       ),
